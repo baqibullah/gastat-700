@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GastatLink.Core/GastatLink.Core.csproj" />
+    <Project Path="src/GastatLink.Infrastructure/GastatLink.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GastatLink.Tests/GastatLink.Tests.csproj" />
+  </Folder>
+</Solution>
