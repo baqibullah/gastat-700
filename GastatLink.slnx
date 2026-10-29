@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/GastatLink.Console/GastatLink.Console.csproj" />
     <Project Path="src/GastatLink.Core/GastatLink.Core.csproj" />
     <Project Path="src/GastatLink.Infrastructure/GastatLink.Infrastructure.csproj" />
   </Folder>
