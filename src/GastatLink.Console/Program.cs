@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 var logger = loggerFactory.CreateLogger<Hl7Listener>();
 
-var options = new ListenerOptions("192.168.150.20", 5000);
+var options = new ListenerOptions("0.0.0.0", 5000);
 var listener = new Hl7Listener(options, new PrintRawHandler(), logger);
 
 using var cts = new CancellationTokenSource();
