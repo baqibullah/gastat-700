@@ -36,4 +36,12 @@ public class Hl7SegmentTests
         Assert.Equal("OUL^R22^OUL_R22", segment.Field(9));
         Assert.Equal("20261029162054932", segment.Field(10));
     }
+
+    [Fact]
+    public void Field_MshField2_ReturnsEncodingCharacters()
+    {
+        var segment = new Hl7Segment(MshLine);
+        Assert.Equal("|", segment.Field(1));
+        Assert.Equal("^~\\&", segment.Field(2));
+    }
 }
