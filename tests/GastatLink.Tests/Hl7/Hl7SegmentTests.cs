@@ -21,4 +21,11 @@ public class Hl7SegmentTests
         var segment = new Hl7Segment(ObxLine);
         Assert.Equal("", segment.Field(4));
     }
+
+    [Fact]
+    public void Field_NumberPastTheEnd_ReturnsEmptyString()
+    {
+        var segment = new Hl7Segment(ObxLine);
+        Assert.Equal("", segment.Field(40));
+    }
 }
