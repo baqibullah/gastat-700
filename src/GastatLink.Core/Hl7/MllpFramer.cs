@@ -1,6 +1,5 @@
 namespace GastatLink.Core.Hl7;
 
-
 // Cuts the stream of bytes into whole HL7 messages. Since TCP sends a stream of bytes.
 // Standard message look like this:
 // 0B <message text> 1C OD
