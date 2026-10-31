@@ -28,4 +28,12 @@ public class Hl7SegmentTests
         var segment = new Hl7Segment(ObxLine);
         Assert.Equal("", segment.Field(40));
     }
+
+    [Fact]
+    public void Field_MshLine_UsesProtocolDocumentNumbering()
+    {
+        var segment = new Hl7Segment(MshLine);
+        Assert.Equal("OUL^R22^OUL_R22", segment.Field(9));
+        Assert.Equal("20261029162054932", segment.Field(10));
+    }
 }
