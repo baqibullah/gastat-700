@@ -44,4 +44,9 @@ public class Hl7SegmentTests
         Assert.Equal("|", segment.Field(1));
         Assert.Equal("^~\\&", segment.Field(2));
     }
+
+    public void Field_NegativeNumber_Throws()
+    {
+        var segment = new Hl7Segment(MshLine);
+    }
 }
