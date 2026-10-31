@@ -14,4 +14,11 @@ public class Hl7SegmentTests
         var segment = new Hl7Segment(ObxLine);
         Assert.Equal("28.2", segment.Field(5));
     }
+
+    [Fact]
+    public void Field_EmptyField_ReturnsEmptyString()
+    {
+        var segment = new Hl7Segment(ObxLine);
+        Assert.Equal("", segment.Field(4));
+    }
 }
