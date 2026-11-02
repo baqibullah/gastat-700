@@ -45,8 +45,10 @@ public class Hl7SegmentTests
         Assert.Equal("^~\\&", segment.Field(2));
     }
 
+    [Fact]
     public void Field_NegativeNumber_Throws()
     {
         var segment = new Hl7Segment(MshLine);
+        Assert.Throws<ArgumentOutOfRangeException>(() => segment.Field(-1));
     }
 }
