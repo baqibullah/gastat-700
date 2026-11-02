@@ -43,9 +43,9 @@ public static class OulMapper
                     Code: Component(obx.Field(3), 1),
                     Name: Component(obx.Field(3), 2),
                     Value: obx.Field(5),
-                    Unit: Component(obx.Field(6), 1),
+                    Unit: Component(obx.Field(6), 2),
                     ReferenceRange: obx.Field(7),
-                    Flag: obx.Field(8).Trim("").ToString()
+                    Flag: obx.Field(8).Trim()
                     );
     }
 }
