@@ -44,4 +44,16 @@ public class Hl7MessageTests
         Assert.NotNull(message.Segment("MSH"));
         Assert.Equal("20261029162054932", message.Segment("MSH")?.Field(10));
     }
+
+    [Fact]
+    public void SegmentsNamed_Obx_ReturnsAllFifteenInOrder()
+    {
+        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+
+        var obxSegments = message.SegmentsNamed("OBX");
+
+        Assert.Equal(15, obxSegments.Count);
+        Assert.Equal("1", obxSegments[0].Field(1));
+        Assert.Equal("15", obxSegments[14].Field(1));
+    }
 }
