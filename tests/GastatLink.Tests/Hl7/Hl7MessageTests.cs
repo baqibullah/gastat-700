@@ -56,4 +56,12 @@ public class Hl7MessageTests
         Assert.Equal("1", obxSegments[0].Field(1));
         Assert.Equal("15", obxSegments[14].Field(1));
     }
+
+    [Fact]
+    public void Segment_Missing_ReturnsNull()
+    {
+        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+
+        Assert.Null(message.Segment("ZZZ"));
+    }
 }
