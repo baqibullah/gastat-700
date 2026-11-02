@@ -1,4 +1,5 @@
 using GastatLink.Core.Hl7;
+using System.Globalization;
 
 namespace GastatLink.Core.Reports;
 
@@ -20,5 +21,10 @@ public static class OulMapper
     {
         var parts = field.Split('^', StringSplitOptions.TrimEntries);
         return number >= 1 && number <= parts.Length ? parts[number - 1] : "";
+    }
+
+    private static DateTime ParseResultTime(string text)
+    {
+        return DateTime.ParseExact(text, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
     }
 }
