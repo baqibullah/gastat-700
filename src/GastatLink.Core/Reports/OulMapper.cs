@@ -9,7 +9,7 @@ public static class OulMapper
         throw new NotImplementedException();
     }
 
-    private static string Component(string field, int number)
+    private static string SplitSegmentFields(string field, int number)
     {
         var parts = field.Split('^', StringSplitOptions.TrimEntries);
         return number >= 1 && number <= parts.Length ? parts[number - 1] : "";
