@@ -29,17 +29,22 @@ public class Hl7MessageTests
     OBX|15|NM|ZD029000002027001^ctO2(a)^ZZZZ||15.8|^VOL%|||||F||||
     """;
 
+    private static string BuildWireMessage()
+    {
+        return RealMessage.ReplaceLineEndings("\r") + "\r";
+    }
+
     [Fact]
     public void Segments_RealMessage_HasTwentyOne()
     {
-        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+        var message = new Hl7Message(BuildWireMessage());
         Assert.Equal(21, message.Segments.Count);
     }
 
     [Fact]
     public void Segment_Msh_ReturnsTheMshLine()
     {
-        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+        var message = new Hl7Message(BuildWireMessage());
 
         Assert.NotNull(message.Segment("MSH"));
         Assert.Equal("20261029162054932", message.Segment("MSH")?.Field(10));
@@ -48,7 +53,7 @@ public class Hl7MessageTests
     [Fact]
     public void SegmentsNamed_Obx_ReturnsAllFifteenInOrder()
     {
-        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+        var message = new Hl7Message(BuildWireMessage());
 
         var obxSegments = message.SegmentsNamed("OBX");
 
@@ -60,7 +65,7 @@ public class Hl7MessageTests
     [Fact]
     public void Segment_Missing_ReturnsNull()
     {
-        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+        var message = new Hl7Message(BuildWireMessage());
 
         Assert.Null(message.Segment("ZZZ"));
     }
