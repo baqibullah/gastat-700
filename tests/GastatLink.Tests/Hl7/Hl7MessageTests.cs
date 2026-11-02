@@ -35,4 +35,13 @@ public class Hl7MessageTests
         var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
         Assert.Equal(21, message.Segments.Count);
     }
+
+    [Fact]
+    public void Segment_Msh_ReturnsTheMshLine()
+    {
+        var message = new Hl7Message(RealMessage.ReplaceLineEndings("\r" + "\r"));
+
+        Assert.NotNull(message.Segment("MSH"));
+        Assert.Equal("20261029162054932", message.Segment("MSH")?.Field(10));
+    }
 }
