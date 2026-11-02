@@ -27,4 +27,25 @@ public static class OulMapper
     {
         return DateTime.ParseExact(text, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
     }
+
+    private static Observation MapObservation(Hl7Segment obx)
+    {
+        // Obx line example:
+        // OBX|2|NM|3H080000002027052^pCO2^JC10||28.2|^Torr|32-46|L|||F||||
+        // Postion 3 gives us: 3H080000002027052^pCO2^JC10 we then split by ^
+        // Code: 3H080000002027052
+        // Name: pCO2
+        // Value: Field(5) = 28.2
+        // Unit: Field(6) = ^Torr -> Split -> Torr
+        // ReferenceRange: Field(7) = 32-46
+        // Flag: Field(8) = L
+        return new Observation(
+                    Code: Component(obx.Field(3), 1),
+                    Name: Component(obx.Field(3), 2),
+                    Value: obx.Field(5),
+                    Unit: Component(obx.Field(6), 1),
+                    ReferenceRange: obx.Field(7),
+                    Flag: obx.Field(8).Trim("").ToString()
+                    );
+    }
 }
