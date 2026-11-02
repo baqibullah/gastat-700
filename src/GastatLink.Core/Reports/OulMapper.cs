@@ -7,6 +7,17 @@ public static class OulMapper
 {
     public static GasReport Map(Hl7Message message)
     {
+        var msh = message.Segment("MSH");
+        var pid = message.Segment("PID");
+        var sac = message.Segment("SAC");
+        if (msh is null)
+        {
+            throw new InvalidOperationException("Message has no MSH field");
+        }
+        var messageControlId = msh.Field(10);
+        var resultTime = ParseResultTime(msh.Field(7));
+        var patientId = Component(pid?.Field(1) ?? "", 1);
+
         throw new NotImplementedException();
     }
 

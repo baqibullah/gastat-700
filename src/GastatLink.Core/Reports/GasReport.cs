@@ -6,6 +6,9 @@ public record GasReport
     DateTime ResultTime,
     string SpecimenId,
     string PatientId,
+    string PatientName,
+    DateOnly? DateOfBirth,
+    string Sex,
     string SampleType,
     IReadOnlyList<Observation> Observations
 );
