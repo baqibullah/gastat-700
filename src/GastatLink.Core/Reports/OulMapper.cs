@@ -9,24 +9,41 @@ public static class OulMapper
     {
         var msh = message.Segment("MSH");
         var pid = message.Segment("PID");
+        var spm = message.Segment("SPM");
         var sac = message.Segment("SAC");
-        var patientNameRaw = message.Segment("PID");
 
         if (msh is null)
         {
-            throw new InvalidOperationException("Message has no MSH field");
+            throw new InvalidOperationException("Message has no MSH segment");
         }
+
         var messageControlId = msh.Field(10);
         var resultTime = ParseResultTime(msh.Field(7));
-        var specimenId = sac?.Field(3);
+        var specimenId = sac?.Field(3) ?? "";
+        var sampleType = Component(spm?.Field(4) ?? "", 2);
 
         // PID|||1234567890^^^^PI||^^^^^L^I~John^Smith^^^^^L^P||19741115|M<CR>
+
         // PatientId defined as this, we take the field at position 3.
         var patientId = Component(pid?.Field(3) ?? "", 1);
-        // PatientName is at field 5
-        var patientName = ParsePatientName(patientNameRaw?.Field(5) ?? "");
 
-        throw new NotImplementedException();
+        // PatientName is at the position 5: ^^^^^L^I~John^Smith^^^^^L^P
+        var patientName = ParsePatientName(pid?.Field(5) ?? "");
+        var patientDateOfBirth = ParseBirthDate(pid?.Field(7) ?? "");
+        var patientSex = (pid?.Field(8) ?? "").Trim();
+        var observations = message.SegmentsNamed("OBX").Select(MapObservation).ToList();
+
+        return new GasReport(
+            MessageControlId: messageControlId,
+            ResultTime: resultTime,
+            SpecimenId: specimenId,
+            PatientId: patientId,
+            PatientName: patientName,
+            DateOfBirth: patientDateOfBirth,
+            Sex: patientSex,
+            SampleType: sampleType,
+            Observations: observations
+        );
     }
 
     /// <summary>
@@ -64,6 +81,15 @@ public static class OulMapper
         return string.Join(" ", new[] { first, second }.Where(p => p != ""));
     }
 
+    private static DateOnly? ParseBirthDate(string text)
+    {
+        if (DateOnly.TryParseExact(text, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+        {
+            return date;
+        }
+        return null;
+    }
+
     private static DateTime ParseResultTime(string text)
     {
         return DateTime.ParseExact(text, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
@@ -73,7 +99,7 @@ public static class OulMapper
     {
         // Obx line example:
         // OBX|2|NM|3H080000002027052^pCO2^JC10||28.2|^Torr|32-46|L|||F||||
-        // Postion 3 gives us: 3H080000002027052^pCO2^JC10 we then split by ^
+        // Position 3 gives us: 3H080000002027052^pCO2^JC10 we then split by ^
         // Code: 3H080000002027052
         // Name: pCO2
         // Value: Field(5) = 28.2
