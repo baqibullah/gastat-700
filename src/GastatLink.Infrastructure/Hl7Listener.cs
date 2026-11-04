@@ -65,6 +65,7 @@ public class Hl7Listener(ListenerOptions listenerOptions, IMessageHandler messag
                     foreach (var bytes in framer.Push(buffer.AsSpan(0, read)))
                     {
                         string message = ShiftJis.GetString(bytes);
+                        logger.LogInformation("Received:\n{Message}", message.Replace("\r", "\n"));
                         string? reply = await messageHandler.HandleAsync(message, ct);
                         if (reply is not null)
                             await SendAsync(stream, reply, ct);
