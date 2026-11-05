@@ -19,7 +19,7 @@ public class MessageRouter(IReportDisplay display) : IMessageHandler
 
     private static Task<string?> BuildRsp(Hl7Message message)
     {
-        throw new NotImplementedException();
+        return Task.FromResult<string?>(RspBuilder.Build(message, DateTime.Now));
     }
 
     private Task<string?> BuildAck(Hl7Message message)
